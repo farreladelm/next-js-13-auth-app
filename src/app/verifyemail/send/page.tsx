@@ -1,9 +1,9 @@
 "use client"
 import Link from "next/link"
 import axios from "axios"
-import Reaxt, { useEffect, useState } from "react"
+import Reaxt, { useEffect } from "react"
 
-export default function sendEmailVerification() {
+export default function SendEmailVerification() {
     const sendEmail =async () => {
         try {
             const response = await axios.get("/api/user/verifyemail/send")
@@ -13,7 +13,7 @@ export default function sendEmailVerification() {
         }
     }
 
-    useState(sendEmail)
+    useEffect(() => {sendEmail()}, [])
     return (
         <div className="flex justify-center items-center min-h-screen w-screen">
             <div>

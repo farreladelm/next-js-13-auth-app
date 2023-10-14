@@ -5,7 +5,7 @@ import axios from "axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-export default function resetPassword() {
+export default function ResetPassword() {
     const router = useRouter()
     const token = useSearchParams().get('token')
 

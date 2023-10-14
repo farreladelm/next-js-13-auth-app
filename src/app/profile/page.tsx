@@ -10,7 +10,7 @@ interface user {
     isVerified: boolean
 }
 
-export default function profilePage() {
+export default function ProfilePage() {
     const [user, setUser] = React.useState({
         username: "",
         email: "",

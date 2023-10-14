@@ -2,10 +2,9 @@
 import React, {useEffect} from "react"
 import { useSearchParams } from "next/navigation"
 import axios from "axios"
-import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
-export default function verifyEmail() {
+export default function VerifyEmail() {
     const router = useRouter()
     const token = useSearchParams().get('token')
     

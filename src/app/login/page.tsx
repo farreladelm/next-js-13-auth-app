@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
 
-export default function loginPage() {
+export default function LoginPage() {
     const router = useRouter()
     const [user, setUser] = React.useState({
         email: "",

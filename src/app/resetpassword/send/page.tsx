@@ -3,19 +3,16 @@ import Link from "next/link"
 import axios from "axios"
 import { useEffect } from "react"
 
-export default function sendResetPasswordVerification() {
-    useEffect(()=>{
-        console.log("use effect ran")
-        const sendEmail = async () => {
-            try {
-                const response = await axios.get("/api/user/resetpassword/send")
-                console.log("success", response)
-            } catch (error: any) {
-                console.log(error.message)
-            }
+export default function SendResetPasswordVerification() {
+    const sendEmail = async () => {
+        try {
+            const response = await axios.get("/api/user/resetpassword/send")
+            console.log("success", response)
+        } catch (error: any) {
+            console.log(error.message)
         }
-        sendEmail()
-    }, [])
+    }
+    useEffect(() => {sendEmail()}, [])
     
     return (
         <div className="flex justify-center items-center min-h-screen w-screen">
