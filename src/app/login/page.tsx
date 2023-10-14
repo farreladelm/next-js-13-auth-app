@@ -85,7 +85,7 @@ export default function LoginPage() {
                             }
                             </button>
                             <small>
-                                Don't have an account? <Link href="/signup" className="hover:text-slate-500">Signup</Link>
+                                Dont have an account? <Link href="/signup" className="hover:text-slate-500">Signup</Link>
                             </small>
                         </div>
                     </div>
