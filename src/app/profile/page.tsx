@@ -2,16 +2,19 @@
 import {Navbar} from "@/components/Navbar"
 import React, { useEffect } from "react"
 import axios from "axios"
+import Link from "next/link"
 
 interface user {
     username: string,
     email: string,
+    isVerified: boolean
 }
 
 export default function profilePage() {
     const [user, setUser] = React.useState({
         username: "",
         email: "",
+        isVerified: false,
     })
 
     const [loading, setLoading] = React.useState(false)
@@ -47,17 +50,37 @@ export default function profilePage() {
                                         <span className="sr-only">Loading...</span>
                             </div> :
                             <>
-                                <div className="grid grid-cols-2">
+                                <div className="grid grid-cols-2 mb-4">
                                     <span>Name</span>
                                     <span>
                                     {user.username}
                                     </span>
                                 </div>
-                                <div className="grid grid-cols-2">
+                                <div className="grid grid-cols-2 mb-4">
                                     <span>Email</span>
                                     <span>
                                     {user.email}
                                     </span>
+                                </div>
+                                <div className="grid grid-cols-2 mb-4">
+                                    <span>User is</span>
+                                    <span>
+                                    {
+                                        user.isVerified ?
+                                        <div className="px-4 py-2 bg-green-700 text-slate-100 rounded flex justify-center">Verified</div> :
+                                        <div className="px-4 py-2 bg-red-700 text-slate-100 rounded flex justify-center">unverified</div> 
+                                    }
+                                    </span>
+                                </div>
+                                {
+                                    !user.isVerified ?
+                                    <div className="grid grid-cols-1 mb-4 place-content-end">
+                                        <Link className="hover:text-slate-400" href="/verifyemail/send">Send email verification</Link>    
+                                    </div> :
+                                    ""
+                                }
+                                <div className="grid grid-cols-1 place-content-end mt-4">
+                                        <Link className="hover:text-slate-400 text-slate-500" href="/resetpassword/send">Reset password</Link>    
                                 </div>
                             </>
                         }

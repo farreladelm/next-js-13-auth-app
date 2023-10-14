@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({error: "User does not exist"}, {status: 400})
         }
         
-        // console.log("user exist")
+        console.log("user exist")
 
         // Check if password is valid
         const validPassword = await bcryptjs.compare(password, user.password)
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         response.cookies.set("token", token, {httpOnly: true})
 
         // console.log("response is available")
-        // console.log(response)
+        console.log(response)
         return response
         
     } catch (error: any) {

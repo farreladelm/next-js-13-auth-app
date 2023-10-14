@@ -1,90 +1,61 @@
 "use client"
-import Link from "next/link"
-import React, { useEffect } from "react"
+import React, {useEffect} from "react"
+import { useSearchParams } from "next/navigation"
 import axios from "axios"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import toast from "react-hot-toast"
 
-
-export default function signupPage() {
+export default function resetPassword() {
     const router = useRouter()
-    const [user, setUser] = React.useState({
-        username: "",
-        email: "",
-        password: "",
-    })
+    const token = useSearchParams().get('token')
 
+    const [password, setPassword] = React.useState("")
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
     const [loading, setLoading] = React.useState(false)
 
-    const onSignup = async () => {
+    const onReset = async () => {
         try {
             setLoading(true)
-            const response = await axios.post("/api/user/signup", user)
-            console.log("Signup success", response.data)
-            router.push("/login")
-        } catch (error: any) {
-            console.log("Signup failed", error)
-            toast.error(error.message)
-            
-        } finally {
+            const response = await axios.post("/api/user/resetpassword", {token, password})
+            console.log("success", response)
             setLoading(false)
+            router.push("/profile")
+        } catch (error: any) {
+            console.log(error.message)            
         }
     }
 
     useEffect(() => {
-        if(user.email.length > 0 && user.password.length > 0 && user.username.length > 0 ) {
-            setButtonDisabled(false)
-        } else{
+        if(password.length < 8) {
             setButtonDisabled(true)
+        }else{
+            setButtonDisabled(false)
         }
-    }, [user])
+    }, [password])
 
     return (
         <>
-            <div className="flex justify-center items-center min-h-screen w-screen">
+           <div className="flex justify-center items-center min-h-screen w-screen">
                 <div className="p-4 rounded-md min-w-[300px]">
                     <h1 className="p-4 text-center text-2xl font-bold">Signup Form</h1>
                     <hr className="rounded h-[2px]" />
                     <div className="py-4">
                         <div>
                             <div className="flex flex-col gap-2 mb-4">
-                                <label htmlFor="username">username</label>
-                                <input 
-                                id="username" 
-                                type="text" 
-                                value={user.username}
-                                className="rounded bg-slate-300 p-2 outline-none text-slate-900" 
-                                placeholder="Username"
-                                onChange={(e) => setUser({...user, username: e.target.value})} 
-                                />
-                            </div>
-                            <div className="flex flex-col gap-2 mb-4">
-                                <label htmlFor="email">email</label>
-                                <input 
-                                id="email" 
-                                type="email" 
-                                value={user.email}
-                                className="rounded bg-slate-300 p-2 outline-none text-slate-900" 
-                                placeholder="email"
-                                onChange={(e) => setUser({...user, email: e.target.value})} 
-                                />
-                            </div>
-                            <div className="flex flex-col gap-2 mb-4">
-                                <label htmlFor="password">password</label>
+                                <label htmlFor="password">new password</label>
                                 <input 
                                 id="password" 
                                 type="password" 
-                                value={user.password}
+                                value={password}
                                 className="rounded bg-slate-300 p-2 outline-none text-slate-900" 
                                 placeholder="password"
-                                onChange={(e) => setUser({...user, password: e.target.value})} 
+                                onChange={(e) => setPassword(e.target.value)} 
                                 />
                             </div>
                             <hr className="mt-8 rounded h-[2px]" />
                             <div className="flex flex-col justify-center items-center gap-2 my-4">
-                                <button onClick={onSignup} className="px-4 py-2 bg-slate-950 hover:bg-slate-800 focus:bg-slate-800 border-2 border-solid border-slate-300 rounded flex gap-4 items-center justify-center" disabled={buttonDisabled} >
-                                    <span>Sign Up here</span>
+                                <button onClick={onReset} className="px-4 py-2 bg-slate-950 hover:bg-slate-800 focus:bg-slate-800 border-2 border-solid border-slate-300 rounded flex gap-4 items-center justify-center" disabled={buttonDisabled} >
+                                    <span>Reset</span>
                                     {   
                                         loading ?
                                             <div role="status">
@@ -98,7 +69,7 @@ export default function signupPage() {
                                     }
                                 </button>
                                 <small>
-                                    Already have an account? <Link href="/login" className="hover:text-slate-500">Login</Link>
+                                    Go back to <Link href="/profile" className="hover:text-slate-500 text-slate-600">Profile</Link> page
                                 </small>
                             </div>
                         </div>
@@ -106,6 +77,5 @@ export default function signupPage() {
                 </div>
             </div>
         </>
-        
     )
 }
