@@ -4,8 +4,7 @@ import nodemailer from 'nodemailer'
 export const sendEmail = async ({email, emailType, token} : any) => {
     try {
         const transporter = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
+            host: "smtp.gmail.com",
             auth: {
               user: process.env.MAILTRAP_USER,
               pass: process.env.MAILTRAP_PASSWORD
@@ -16,12 +15,20 @@ export const sendEmail = async ({email, emailType, token} : any) => {
         const url = emailType === process.env.VERIFY ? "verifyemail" : "resetpassword"
         
         const emailOptions = {
-            from: '"Farrel Adel Mohammad" farrel.adel@gmail.com', // sender address
+            from: process.env.MAILTRAP_USER, // sender address
             to: email, // list of receivers
             subject: subject, // Subject line
             html: `<p>Click this <a href="${process.env.DOMAIN}/${url}?token=${token}">link</a> to ${subject}`, // html body
         }
-        const mailResponse = await transporter.sendMail(emailOptions);
+        console.log("send mail")
+        const mailResponse = await transporter.sendMail(emailOptions, function(err, data) {
+            if(err) {
+                // console.log(data)
+                console.log(err)
+            } else {
+                console.log("email send successfully")
+            }
+        });
 
         return mailResponse
     } catch (error: any) {
